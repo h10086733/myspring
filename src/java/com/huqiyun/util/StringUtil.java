@@ -2,6 +2,8 @@ package com.huqiyun.util;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
@@ -87,7 +89,15 @@ public class StringUtil {
 		String emailRegex = "^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$";
 		return str.matches(emailRegex);
 	}
-
+	public static String fecth(String xml, String regex, int group) {
+		Pattern p = Pattern.compile(regex);
+		String value = "";
+		Matcher m = p.matcher(xml);
+		if (m.find() && null != m.group(1)) {
+			value = m.group(group);
+		}
+		return value.trim();
+	}
 	/**
 	 * 
 	 * wxRequestXMLCreate:生成微信支付接口xml报文. <br/>

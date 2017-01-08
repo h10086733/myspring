@@ -24,8 +24,8 @@ public class TestAction {
 	
 	@Autowired
 	FetchJl fetch;
-	
-	@RequestMapping(value="/test",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
+	//定时更新20日数据   暂时放弃
+//	@RequestMapping(value="/test",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String dingshiGetPan(HttpServletRequest request,HttpServletResponse response){
 		logger.info("come in: {}",System.currentTimeMillis());
@@ -37,6 +37,20 @@ public class TestAction {
 		} 
 		return "";
 	}
+	//定时更新20日数据  代替上方法
+	@RequestMapping(value="/getFirstDpan",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String getFirstDpan(HttpServletRequest request,HttpServletResponse response){
+		logger.info("come in: {}",System.currentTimeMillis());
+		System.out.println(request.getParameter("id"));
+		try {
+			fetch.getFirstDpan();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return "";
+	}
+	//获取所有行业系数
 	@RequestMapping(value="/dingshiFetchAllXs",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String dingshiFetchAllXs(HttpServletRequest request,HttpServletResponse response){
@@ -48,6 +62,7 @@ public class TestAction {
 		} 
 		return "";
 	}
+	//获取单行业系数
 	@RequestMapping(value="/dingshiGetXs",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String dingshiGetXs(HttpServletRequest request,HttpServletResponse response){
@@ -65,7 +80,7 @@ public class TestAction {
 		return "!!!!!!!!!!!!!!!!!!!!!!!";
 		
 	}
-	
+	//定时新增每日系数
 	@RequestMapping(value="/dingshiGetAllXs",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String dingshiGetAllXs(HttpServletRequest request,HttpServletResponse response){

@@ -39,6 +39,7 @@ import com.huqiyun.service.ICBankuaiService;
 import com.huqiyun.service.ICBankuaiXishuService;
 import com.huqiyun.service.ICdapanService;
 import com.huqiyun.util.DateUtil;
+import com.huqiyun.util.StringUtil;
 
 @Component
 public class FetchJl {
@@ -152,7 +153,8 @@ public class FetchJl {
 		}
 
 	}
-
+	
+	//获取20日历史 
 	private List<DomNode> get20History(String gpdm, HtmlPage html) {
 		List<DomNode> childNodes=new ArrayList<DomNode>();
 		try {
@@ -244,6 +246,12 @@ public class FetchJl {
 				if(s.split(",").length<3){
 					System.out.println(g+"没有获取到数据.股票:"+s);
 					continue;
+				}
+				String cdate=StringUtil.fecth(s, ".*?(\\d{4}-\\d{2}-\\d{2}),", 1).replace("-","");
+				if(!cdate.equals(date)){
+					//当前价格非今天价格。代表今日并非交易日,结束当日
+					System.out.println(date+"当前并非股票交易日,上一个交易日："+cdate);
+					break;
 				}
 				cdapanDTO.setCDate(date);
 				double current=Double.parseDouble(s.split(",")[3]);
