@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MySpring" default="generwar" basedir=".">
+	<property file="${basedir}/build.properties" />
+	<property name="src.dir" value="${basedir}/src/java" />
+	<property name="webRoot" value="${basedir}/WebContent" />
+	<property name="build.lib" value="${basedir}/WebContent/WEB-INF/lib" />
+	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="build.dir" value="${dist.dir}/target/${ant.project.name}" />
+	<property name="build.classes" value="${build.dir}/classes" />
+	<property name="resources" value="${src.dir}/../resource" />
+	<!--定义CLASSPACH,编译时用到你外部加入的包 -->
+	<path id="classpath">
+		<pathelement location="${src.dir}" />
+		<fileset dir="${build.lib}" includes="***.jar" />
+	</path>
+	<!--1、删除编译target目录 -->
+	<target name="clean" description="delete directory">
+		<echo message="clean target directory" />
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+	<!--2、创建编译target目录 -->
+	<target name="init" description="create target directory" depends="clean">
+		<echo message="create target directory" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+	<!--3、编译java源文件 -->
+	<target name="compile"  depends="init" description="compile source files">
+		<mkdir dir="${build.dir}/classes"/>
+		<javac srcdir="${src.dir}" destdir="${build.classes}" encoding="UTF-8" includeantruntime="on" debug="on" >
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	<!--4、 复制资源文件 -->
+	<target name="copyRes" depends="compile" description="copy resources to classes path">
+		<echo message="copy resources to classes path" />
+	<!--外部配置文件
+	<copy todir="${build.classes}">
+			<fileset dir="${resources}">
+				<exclude name="log4j.properties" />
+			</fileset>
+		</copy>
+	    <copy todir="${env_path}" file="${filter_dir}/${env}/env.properties"/>-->
+		
+	</target>
+	<target name="generwar" depends="copyRes">
+		<echo message="generate war" />
+		<war destfile="${dist.dir}/${ant.project.name}.war" webxml="${webRoot}/WEB-INF/web.xml">
+			<fileset dir="${webRoot}">
+			</fileset>
+			<classes dir="${build.classes}">
+			</classes>
+			<classes dir="${resources}"></classes>
+		</war>
+	</target>
+</project>

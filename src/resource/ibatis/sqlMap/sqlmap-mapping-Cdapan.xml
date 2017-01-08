@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="cdapan">
+
+	<insert id="insert" parameterClass="com.huqiyun.dto.CdapanDTO">
+		INSERT INTO cdapan (id
+  		,c_name
+  		,c_daima
+  		,c_status
+  		,c_date
+  		,c_zhishu
+  		,c_20_zuigao
+  		,c_20_zuidi
+  		,c_zuori_yinzi
+  		,delete_tag
+  		,create_date
+  		,update_by
+  		,create_by
+  		,update_date
+  		)
+	    VALUES (#id#
+  		,#cName#
+  		,#cDaima#
+  		,#cStatus#
+  		,#cDate#
+  		,#cZhishu#
+  		,#c20Zuigao#
+  		,#c20Zuidi#
+  		,#cZuoriYinzi#
+  		,#deleteTag#
+  		,#createDate#
+  		,#updateBy#
+  		,#createBy#
+  		,#updateDate#
+  		)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS id
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterClass="com.huqiyun.dto.CdapanDTO">
+		<![CDATA[
+			UPDATE cdapan SET id=#id#
+		]]>
+		<dynamic>
+			<isNotEmpty prepend="" property="id">
+				,id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cName">
+				,c_name = #cName#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cDaima">
+				,c_daima = #cDaima#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cStatus">
+				,c_status = #cStatus#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cDate">
+				,c_date = #cDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cZhishu">
+				,c_zhishu = #cZhishu#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="c20Zuigao">
+				,c_20_zuigao = #c20Zuigao#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="c20Zuidi">
+				,c_20_zuidi = #c20Zuidi#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cZuoriYinzi">
+				,c_zuori_yinzi = #cZuoriYinzi#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="deleteTag">
+				,delete_tag = #deleteTag#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="createDate">
+				,create_date = #createDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="updateBy">
+				,update_by = #updateBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="createBy">
+				,create_by = #createBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="updateDate">
+				,update_date = #updateDate#
+			</isNotEmpty>
+		</dynamic>
+		WHERE ID=#id# 
+	</update>
+	
+	<update id="updateForce" parameterClass="com.huqiyun.dto.CdapanDTO">
+			UPDATE cdapan SET id=#id#
+				,id = #id#
+				,c_name = #cName#
+				,c_daima = #cDaima#
+				,c_status = #cStatus#
+				,c_date = #cDate#
+				,c_zhishu = #cZhishu#
+				,c_20_zuigao = #c20Zuigao#
+				,c_20_zuidi = #c20Zuidi#
+				,c_zuori_yinzi = #cZuoriYinzi#
+				,delete_tag = #deleteTag#
+				,create_date = #createDate#
+				,update_by = #updateBy#
+				,create_by = #createBy#
+				,update_date = #updateDate#
+		WHERE ID=#id# 
+	</update>
+	
+	<resultMap class="com.huqiyun.dto.CdapanDTO" id="cdapanMap">
+	
+			<result property="id" column="id"/>
+			<result property="cName" column="c_name"/>
+			<result property="cDaima" column="c_daima"/>
+			<result property="cStatus" column="c_status"/>
+			<result property="cDate" column="c_date"/>
+			<result property="cZhishu" column="c_zhishu"/>
+			<result property="c20Zuigao" column="c_20_zuigao"/>
+			<result property="c20Zuidi" column="c_20_zuidi"/>
+			<result property="cZuoriYinzi" column="c_zuori_yinzi"/>
+			<result property="deleteTag" column="delete_tag"/>
+			<result property="createDate" column="create_date"/>
+			<result property="updateBy" column="update_by"/>
+			<result property="createBy" column="create_by"/>
+			<result property="updateDate" column="update_date"/>
+		
+	</resultMap>
+	
+    <select id="queryList" resultMap="cdapanMap"  parameterClass="com.huqiyun.dto.CdapanDTO">
+        SELECT * 
+		FROM cdapan d
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+					id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cName">
+					c_name = #cName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cDaima">
+					c_daima = #cDaima#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cStatus">
+					c_status = #cStatus#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cDate">
+					c_date = #cDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cZhishu">
+					c_zhishu = #cZhishu#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="c20Zuigao">
+					c_20_zuigao = #c20Zuigao#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="c20Zuidi">
+					c_20_zuidi = #c20Zuidi#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cZuoriYinzi">
+					c_zuori_yinzi = #cZuoriYinzi#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deleteTag">
+					delete_tag = #deleteTag#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createDate">
+					create_date = #createDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateBy">
+					update_by = #updateBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createBy">
+					create_by = #createBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateDate">
+					update_date = #updateDate#
+			</isNotEmpty>
+		</dynamic>
+		
+		order by d.id desc
+		<isNotEmpty prepend="limit" property="begin">
+				#begin#,#end#
+			</isNotEmpty>
+    </select>  
+    
+    <select id="queryListCount" resultClass="int"  parameterClass="com.huqiyun.dto.CdapanDTO">
+        SELECT count(1) 
+		FROM cdapan d
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+					id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cName">
+					c_name = #cName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cDaima">
+					c_daima = #cDaima#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cStatus">
+					c_status = #cStatus#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cDate">
+					c_date = #cDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cZhishu">
+					c_zhishu = #cZhishu#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="c20Zuigao">
+					c_20_zuigao = #c20Zuigao#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="c20Zuidi">
+					c_20_zuidi = #c20Zuidi#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cZuoriYinzi">
+					c_zuori_yinzi = #cZuoriYinzi#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deleteTag">
+					delete_tag = #deleteTag#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createDate">
+					create_date = #createDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateBy">
+					update_by = #updateBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createBy">
+					create_by = #createBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateDate">
+					update_date = #updateDate#
+			</isNotEmpty>
+		</dynamic>
+		order by d.id desc
+    </select> 
+    
+    
+    <select id="loadById" resultMap="cdapanMap"  parameterClass="java.lang.Integer">
+        SELECT *
+		FROM cdapan d
+		where id = #id#
+		order by d.id desc
+    </select> 
+	
+</sqlMap>

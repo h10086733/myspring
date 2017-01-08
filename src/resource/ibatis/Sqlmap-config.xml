@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig> <!-- 读取数据配置文件 -->
+	<!-- 基本的配置项 cacheModelsEnabled 是否使用缓存对象 lazyLoadingEnabled 是否懒加载 errorTracingEnabled 
+		如果遇到异常是否打印 statementCachingEnabled SQL上下文是否进行缓存 useStatementNamespaces 是否使用命名空间 
+		classInfoCacheEnabled 类信息是否需要缓存 enhancementEnabled 是否使用encache maxRequests 
+		最大请求数 maxSessions 最大接受的会话数 maxTransactions 最大的处理事务数量 defaultStatementTimeout 
+		SQL处理超时时间 配置的时间要注意： maxRequests > maxSessions > maxTransactions -->
+	<settings cacheModelsEnabled="false" lazyLoadingEnabled="true"
+		errorTracingEnabled="true" statementCachingEnabled="true"
+		useStatementNamespaces="true" classInfoCacheEnabled="true"
+		enhancementEnabled="true" defaultStatementTimeout="60" maxRequests="512"
+		maxSessions="256" maxTransactions="128" />
+	<sqlMap resource="ibatis/sqlMap/sqlMap-user.xml" />
+	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-CBankuai.xml" />
+	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-Cdapan.xml" />
+	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-CBankuaiXishu.xml" />
+</sqlMapConfig>

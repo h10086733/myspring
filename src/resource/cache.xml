@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false">
+	<!-- diskStore 硬盘缓存路径   默认java.io.tmpdir-->
+	<!-- eternal 对象是否永久有效 -->
+	<!--maxElementsInMemory 内存中对象的最大存储数 -->
+	<!-- overflowToDisk超出内存最大存储数时是否存到硬盘 -->
+	<!-- diskPersistent 是否缓存JVM重启期数据     -->
+	<!-- timeToIdleSeconds闲置对象存储时长 -->
+	<!--timeToLiveSeconds 对象存储时长 -->
+	<!-- LRU最近较少使用 FIFO先进先出 LFU较少使用 -->
+	<diskStore path="java.io.tmpdir" />
+	<cache name="lufaxCache" eternal="false" maxElementsInMemory="15000"
+		overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="120"
+		timeToLiveSeconds="120" memoryStoreEvictionPolicy="LRU" />
+</ehcache>
