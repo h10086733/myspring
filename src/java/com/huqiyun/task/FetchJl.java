@@ -61,11 +61,7 @@ public class FetchJl {
 				"http://money.finance.sina.com.cn/corp/go.php/vMS_FuQuanMarketHistory/stockid/" + gpdm + ".phtml");
 		List<DomNode> childNodes=new ArrayList<DomNode>();
 		String g=gpdm;
-		if(g.matches("^6.*")){
-			g="sh"+g;
-		}else if(g.matches("^(300|002|000).*")){
-			g="sz"+g;
-		}
+		g = getHead(g);
 		//判断是否停牌了!!!!!!!
 		String s = getJavaScriptPage("http://hq.sinajs.cn/list="+g);
 		if(s.split(",").length<3){
@@ -197,12 +193,12 @@ public class FetchJl {
 		return childNodes;
 	}
 	/***
-	 * 定时更新大盘20日信息
+	 * 定时更新大盘20日信息 
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	 @Scheduled(cron="0 5 15 * * ?")
+//	 @Scheduled(cron="0 5 15 * * ?")
 	public void dingshitime() throws FileNotFoundException, IOException, SQLException {
 		//所有票代码和名称
 		CdapanDTO cdapan = new CdapanDTO();
@@ -217,6 +213,71 @@ public class FetchJl {
 				e.printStackTrace();
 			}
 		}
+	}
+	/***
+	 * 定时更新最新日的20日 最高最低值
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws SQLException
+	 */
+	 @Scheduled(cron="0 5 15 * * ?")
+	public void getFirstDpan() throws FileNotFoundException, IOException, SQLException {
+		//所有票代码和名称
+		CdapanDTO cdapan = new CdapanDTO();
+		cdapan.setDeleteTag("1");
+		List<CdapanDTO> queryList = cdapanService.queryList(cdapan);
+		String date=DateUtil.getDate();
+		for (CdapanDTO cdapanDTO : queryList) {
+			// 更新所有票的最新20日数据
+			if(cdapanDTO.getCDate().equals(date))continue;
+			if(cdapanDTO.getcStatus().equals("2")){
+				//停牌需要重新获取下
+				try {
+					initGp(cdapanDTO.getCDaima(), cdapanDTO.getCName(), "", "");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}else{
+				String g=cdapanDTO.getCDaima();
+				g = getHead(g);
+				String s = getJavaScriptPage("http://hq.sinajs.cn/list="+g);
+				if(s.split(",").length<3){
+					System.out.println(g+"没有获取到数据.股票:"+s);
+					continue;
+				}
+				cdapanDTO.setCDate(date);
+				double current=Double.parseDouble(s.split(",")[3]);
+				if(current==0){
+					System.out.println("停牌中.股票:"+g);
+					cdapanDTO.setcStatus("2");
+					cdapanService.update(cdapanDTO);
+					continue;
+				}
+				//当前复权因子    需要定时更新复权因子
+				double yinzi =cdapanDTO.getCZuoriYinzi()==null?0:cdapanDTO.getCZuoriYinzi();
+				//复权后价格
+				double d=yinzi==0?current:Double.parseDouble(df.format(current*yinzi));
+				Double c20Zuidi = cdapanDTO.getC20Zuidi();
+				if(c20Zuidi>d){
+					cdapanDTO.setC20Zuidi(current);
+				}
+				Double c20Zuigao = cdapanDTO.getC20Zuigao();
+				if(c20Zuigao<d){
+					cdapanDTO.setC20Zuigao(current);
+				}
+				cdapanDTO.setCZhishu(current);
+				cdapanService.update(cdapanDTO);
+			}
+		}
+	}
+
+	private String getHead(String g) {
+		if(g.matches("^6.*")){
+			g="sh"+g;
+		}else if(g.matches("^(300|002|000).*")){
+			g="sz"+g;
+		}
+		return g;
 	}
 	 /***
 	 * 定时更新每日行业系数
@@ -310,11 +371,7 @@ public class FetchJl {
 				System.out.println("停牌中.股票:"+g);
 				continue;
 			}
-			if(g.matches("^6.*")){
-				g="sh"+g;
-			}else if(g.matches("^(300|002|000).*")){
-				g="sz"+g;
-			}
+			g = getHead(g);
 			try {
 				Thread.sleep(new Random().nextInt(1000));
 			} catch (InterruptedException e) {
