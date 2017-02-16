@@ -374,6 +374,17 @@ public class FetchJl {
 					System.out.println("cdapan 存储失败!!!!"+g);
 					continue;
 				}
+			}else if(!c.getCDate().equals(DateUtil.getDate())){
+				try {
+					initGp(g,"", "", "");
+					c = cdapanService.queryListGetFirst(cdapan);
+				} catch (Exception e) {
+				}
+				if(c.getId()==null){
+					//存储失败
+					System.out.println("cdapan 存储失败!!!!"+g);
+					continue;
+				}
 			}
 			if(c.getcStatus().equals("2")){
 				System.out.println("停牌中.股票:"+g);

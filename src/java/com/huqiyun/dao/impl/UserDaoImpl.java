@@ -11,7 +11,7 @@ import com.huqiyun.dao.IUserDao;
 public class UserDaoImpl extends BaseDaoImpl<Integer, Integer> implements IUserDao{
 	
 	public int queryCountUser(){
-		return (int) this.getSqlMapClientTemplate().queryForObject("TB_USER.queryCountUser");
+		return 0;//(int) this.getSqlMapClientTemplate().queryForObject("TB_USER.queryCountUser");
 	}
 
 	@Override
