@@ -3,6 +3,7 @@ package com.huqiyun.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import com.huqiyun.dto.CBankuaiXishuDTO;
 /**
@@ -26,4 +27,7 @@ public interface ICBankuaiXishuDao extends IBaseDao<CBankuaiXishuDTO, Integer> {
     public int queryListCount(CBankuaiXishuDTO cBankuaiXishu) throws SQLException;
    
     public CBankuaiXishuDTO loadById(Integer id) throws SQLException;
+   
+    public List<Map<String,String>> queryAvgCValue(CBankuaiXishuDTO cBankuaiXishu) throws SQLException;
+
 }

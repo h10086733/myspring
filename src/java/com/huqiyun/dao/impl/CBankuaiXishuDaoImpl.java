@@ -3,6 +3,7 @@ package com.huqiyun.dao.impl;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -59,6 +60,12 @@ public class CBankuaiXishuDaoImpl extends BaseDaoImpl<CBankuaiXishuDTO, java.lan
 	@Override
 	public Class<CBankuaiXishuDTO> getEntityClass() {
 		return CBankuaiXishuDTO.class;
+	}
+
+	@Override
+	public List<Map<String, String>> queryAvgCValue(
+			CBankuaiXishuDTO cBankuaiXishu) throws SQLException {
+		return this.getSqlMapClientTemplate().queryForList(SqlName.CBankuaiXishuSql.queryAvgCValue,cBankuaiXishu);
 	}
  	
 }

@@ -80,7 +80,7 @@ public class TestAction {
 		return "!!!!!!!!!!!!!!!!!!!!!!!";
 		
 	}
-	//获取全部行业当前系数
+	//获取全部行业当前系数   展示  不入库    15分钟
 	@RequestMapping(value="/dingshiGetAllXs",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String dingshiGetAllXs(HttpServletRequest request,HttpServletResponse response){
@@ -90,7 +90,7 @@ public class TestAction {
 		for (Entry<String, String> set : hm.entrySet()) {
 			String key = set.getKey();
 			try {
-				result+=key+":"+fetch.fetchCurrentXs(key)+"\n";
+				result+=CommonEnum.hmName.get(key)+":"+fetch.fetchCurrentXs(key)+"\n";
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

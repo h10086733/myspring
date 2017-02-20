@@ -79,5 +79,7 @@ public class SqlName {
 			public static final String loadById = namespace+"loadById";
 			
 			public static final String delete = namespace+"delete";
+			
+			public static final String queryAvgCValue = namespace+"queryAvgCValue";
 	}
 }

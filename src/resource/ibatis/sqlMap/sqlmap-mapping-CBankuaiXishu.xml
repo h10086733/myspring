@@ -186,5 +186,27 @@
 		where id = #id#
 		order by d.id desc
     </select> 
+    
+    <select id="queryAvgCValue" parameterClass="com.huqiyun.dto.CBankuaiXishuDTO"  resultClass="java.util.HashMap">
+	    	SELECT 
+			  c_date,
+			  c_value,
+			  bankuai_daima,
+			  bankuai_name,
+			  (SELECT 
+			     CAST(SUM(c_value)/COUNT(c_value) as decimal(9,0))
+			  FROM
+			    c_bankuai_xishu 
+			  WHERE 
+			  <![CDATA[ id <= MAX(c.id) ]]>
+			    AND bankuai_daima = c.`bankuai_daima` 
+			  ORDER BY id DESC LIMIT 0,3) getcvalue
+			FROM
+			  `c_bankuai_xishu` c where delete_tag=1
+			  <isNotEmpty prepend="and" property="bankuaiDaima">
+					bankuai_daima = #bankuaiDaima#
+			</isNotEmpty>
+			GROUP BY bankuai_daima,c_date ORDER BY id DESC
+    </select>
 	
 </sqlMap>

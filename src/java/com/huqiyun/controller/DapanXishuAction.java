@@ -25,7 +25,7 @@ public class DapanXishuAction {
 	private ICBankuaiXishuService cBankuaiXishuService;
 	
 	//查询最新系数的三日均值
-	@RequestMapping(value="/getBkXs",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/getBksqzb",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String getBkXs(HttpServletRequest request,HttpServletResponse response){
 		try {
@@ -41,7 +41,7 @@ public class DapanXishuAction {
 				for (CBankuaiXishuDTO cBankuaiXishuDTO : queryList) {
 					xs+=cBankuaiXishuDTO.getCValue();
 				}
-				int sumXs=xs/queryList.size();
+				int sumXs=xs/(queryList.size()==0?1:queryList.size());
 				hm.put(entry.getValue(),sumXs+"");
 			}
 			return JSON.toJSONString(hm);
@@ -50,5 +50,16 @@ public class DapanXishuAction {
 		}
 		return "";
 	}
-	
+	//查询历史的三日均值
+	@RequestMapping(value="/getsqzbAllAVG",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String getBkXsAllAVG(HttpServletRequest request,HttpServletResponse response,CBankuaiXishuDTO cBankuaiXishu){
+		try {
+			List<Map<String, String>> queryAvgCValue = cBankuaiXishuService.queryAvgCValue(cBankuaiXishu);
+			return JSON.toJSONString(queryAvgCValue);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 }

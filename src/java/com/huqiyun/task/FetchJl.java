@@ -222,7 +222,7 @@ public class FetchJl {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	 @Scheduled(cron="0 5 15 * * ?")
+//	 @Scheduled(cron="0 5 15 * * ?")
 	public void getFirstDpan() throws FileNotFoundException, IOException, SQLException {
 		//所有票代码和名称
 		CdapanDTO cdapan = new CdapanDTO();
@@ -293,20 +293,24 @@ public class FetchJl {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	 @Scheduled(cron="0 30 15 * * ?")
+	 @Scheduled(cron="0 05 15 * * ?")
 	public void dingshiFetchAllXs(){
 		Map<String, String> hm = CommonEnum.hm;
 		for (Entry<String, String> set : hm.entrySet()) {
-			String key=set.getKey();
-			int xs=getXishu(set.getValue().split(","));
-			CBankuaiXishuDTO cBankuaiXishu=new CBankuaiXishuDTO();
-			cBankuaiXishu.setBankuaiDaima(key);
-			cBankuaiXishu.setCDate(DateUtil.getDate());
-			cBankuaiXishu.setCValue(xs);
-			cBankuaiXishu.setDeleteTag("1");
-			cBankuaiXishu.setBankuaiName(CommonEnum.hmName.get(key));
 			try {
-				cbankuaixishuService.insert(cBankuaiXishu);
+				String key=set.getKey();
+				CBankuaiXishuDTO cBankuaiXishu=new CBankuaiXishuDTO();
+				cBankuaiXishu.setBankuaiDaima(key);
+				cBankuaiXishu.setDeleteTag("1");
+				cBankuaiXishu.setCDate(DateUtil.getDate());
+				//查询当前是否存在
+				List<CBankuaiXishuDTO> queryList = cbankuaixishuService.queryList(cBankuaiXishu);
+				if(queryList.size()==0){
+					int xs=getXishu(set.getValue().split(","));
+					cBankuaiXishu.setCValue(xs);
+					cBankuaiXishu.setBankuaiName(CommonEnum.hmName.get(key));
+					cbankuaixishuService.insert(cBankuaiXishu);
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

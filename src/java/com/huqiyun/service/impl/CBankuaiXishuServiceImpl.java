@@ -3,6 +3,7 @@ package com.huqiyun.service.impl;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,6 +57,12 @@ public class CBankuaiXishuServiceImpl implements ICBankuaiXishuService{
 	@Override
 	public CBankuaiXishuDTO loadById(Integer id) throws SQLException {
 		return cBankuaiXishuDao.loadById(id);
+	}
+
+	@Override
+	public List<Map<String, String>> queryAvgCValue(
+			CBankuaiXishuDTO cBankuaiXishu) throws SQLException {
+		return cBankuaiXishuDao.queryAvgCValue(cBankuaiXishu);
 	}
  	
 }
