@@ -15,4 +15,6 @@
 	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-CBankuai.xml" />
 	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-Cdapan.xml" />
 	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-CBankuaiXishu.xml" />
+	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-GmjlLog.xml" />
+	<sqlMap resource="ibatis/sqlMap/sqlmap-mapping-CBankuaiValue.xml" />
 </sqlMapConfig>

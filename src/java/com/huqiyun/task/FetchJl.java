@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,9 +35,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.huqiyun.com.CommonEnum;
 import com.huqiyun.dto.CBankuaiDTO;
+import com.huqiyun.dto.CBankuaiValueDTO;
 import com.huqiyun.dto.CBankuaiXishuDTO;
 import com.huqiyun.dto.CdapanDTO;
 import com.huqiyun.service.ICBankuaiService;
+import com.huqiyun.service.ICBankuaiValueService;
 import com.huqiyun.service.ICBankuaiXishuService;
 import com.huqiyun.service.ICdapanService;
 import com.huqiyun.util.DateUtil;
@@ -52,6 +56,9 @@ public class FetchJl {
 	
 	@Autowired
 	ICBankuaiXishuService cbankuaixishuService;
+	
+	@Autowired
+	ICBankuaiValueService cbankuaiBankuaiValueService;
 	
 	static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	static SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
@@ -282,7 +289,7 @@ public class FetchJl {
 	private String getHead(String g) {
 		if(g.matches("^6.*")){
 			g="sh"+g;
-		}else if(g.matches("^(300|002|000).*")){
+		}else if(g.matches("^(300|002|000|001|301).*")){
 			g="sz"+g;
 		}
 		return g;
@@ -310,6 +317,60 @@ public class FetchJl {
 					cBankuaiXishu.setCValue(xs);
 					cBankuaiXishu.setBankuaiName(CommonEnum.hmName.get(key));
 					cbankuaixishuService.insert(cBankuaiXishu);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	 /***
+		 * 打印全部系数
+		 * @throws FileNotFoundException
+		 * @throws IOException
+		 * @throws SQLException
+		 */
+	 @Scheduled(cron="0 40 11 * * ?")
+	public void gengxin20ri(){
+		Map<String, String> hm = CommonEnum.hm;
+		String s="所有行业系数:";
+		for (Entry<String, String> set : hm.entrySet()) {
+			int xs=getXishu(set.getValue().split(","));
+			System.out.println(xs);
+			s+=";"+CommonEnum.hmName.get(set.getKey())+"：对应系数:"+xs+"\n";
+		}
+		System.out.println(s);
+	}
+	 /***
+		 * 每日收盘收录行业系数收盘价格
+		 * @throws FileNotFoundException
+		 * @throws IOException
+		 * @throws SQLException
+		 */
+	 @Scheduled(cron="0 05 15 * * ?")
+	public void hangyeshoupanjia(){
+		Map<String, String> hm = CommonEnum.hmCode;
+		for (Entry<String, String> set : hm.entrySet()) {
+			String key = set.getKey();//jg
+			String value = set.getValue();//399967
+			value=getHead(value);
+			String date = DateUtil.getDate();
+			try {
+				CBankuaiValueDTO cBankuaiValue=new CBankuaiValueDTO();
+				cBankuaiValue.setBankuaiDaima(value);
+				cBankuaiValue.setBankuaiJiancheng(CommonEnum.hmName.get(key));
+				cBankuaiValue.setBankuaiName(key);
+				cBankuaiValue.setDeleteTag("1");
+				cBankuaiValue.setCDate(date);
+				CBankuaiValueDTO f = cbankuaiBankuaiValueService.queryListGetFirst(cBankuaiValue);
+				if(f==null){
+					String s = getJavaScriptPage("http://hq.sinajs.cn/list="+value);
+					if(s.split(",").length<3){
+						System.out.println(key+"...没有获取到数据.股票:"+s);
+						continue;
+					}
+					double current=Double.parseDouble(s.split(",")[3]);
+					cBankuaiValue.setBankuaiShoupanjia(current+"");
+					cbankuaiBankuaiValueService.insert(cBankuaiValue);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

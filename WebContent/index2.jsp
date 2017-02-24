@@ -25,7 +25,7 @@
 			$("#"+type).append(map[type]+":"+result+"\n");		
  		}
 	}
-	setInterval("a()",1000*60*30);//1000为1秒钟
+ 	setInterval("a()",1000*60*60);//1000为1秒钟
 	
 </script>
 

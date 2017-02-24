@@ -85,3 +85,37 @@ insert  into `cdapan`(`id`,`c_name`,`c_daima`,`c_status`,`c_date`,`c_zhishu`,`c_
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+CREATE TABLE `test`.`gmjl_log`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `jjdm` VARCHAR(11) COMMENT '购买基金代码',
+  `jjmc` VARCHAR(11) COMMENT '购买基金名称',
+  `gmcb` VARCHAR(20) COMMENT '购买成本',
+  `bug_date` varchar(20) COMMENT '购买时间',
+  `gm_status` VARCHAR(20) COMMENT '购买状态1买入2已售出',
+  `sale_date` varchar(20) COMMENT '售出时间',
+  `yldw` VARCHAR(20) COMMENT '盈利点位',
+  `create_date` DATETIME COMMENT '创建时间',
+  `create_by` VARCHAR(50) COMMENT '创建人',
+  `update_date` DATETIME COMMENT '更新时间',
+  `update_by` VARCHAR(50) COMMENT '更新人',
+  `delete_tag` VARCHAR(2) COMMENT '删除标志1正常2删除',
+  PRIMARY KEY (`id`)
+)
+COMMENT='购买基金日志表';
+CREATE TABLE `test`.`c_bankuai_value`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `bankuai_name` VARCHAR(50) COMMENT '板块名称',
+  `bankuai_daima` VARCHAR(50) COMMENT '板块代码',
+  `bankuai_shoupanjia` VARCHAR(20) COMMENT '收盘价',
+  `c_date` VARCHAR(20) COMMENT '日期',
+  `create_date` DATETIME COMMENT '创建时间',
+  `create_by` VARCHAR(50) COMMENT '创建人',
+  `update_date` DATETIME COMMENT '更新时间',
+  `update_by` VARCHAR(50) COMMENT '更新人',
+  `delete_tag` VARCHAR(2) COMMENT '删除 1正常2删除',
+  PRIMARY KEY (`id`)
+)
+COMMENT='板块每日收盘价格';
+ALTER TABLE `test`.`c_bankuai_value`   
+  ADD COLUMN `bankuai_jiancheng` VARCHAR(20) NULL  COMMENT '板块简称' AFTER `id`;
