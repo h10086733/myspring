@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -331,14 +331,16 @@ public class FetchJl {
 		 */
 	 @Scheduled(cron="0 40 11 * * ?")
 	public void gengxin20ri(){
+		ExecutorService es=Executors.newFixedThreadPool(5);
 		Map<String, String> hm = CommonEnum.hm;
-		String s="所有行业系数:";
-		for (Entry<String, String> set : hm.entrySet()) {
-			int xs=getXishu(set.getValue().split(","));
-			System.out.println(xs);
-			s+=";"+CommonEnum.hmName.get(set.getKey())+"：对应系数:"+xs+"\n";
+		for (final Entry<String, String> set : hm.entrySet()) {
+			es.execute(new Runnable() {
+				@Override
+				public void run() {
+					getXishu(set.getValue().split(","));
+				}
+			});
 		}
-		System.out.println(s);
 	}
 	 /***
 		 * 每日收盘收录行业系数收盘价格
@@ -352,7 +354,6 @@ public class FetchJl {
 		for (Entry<String, String> set : hm.entrySet()) {
 			String key = set.getKey();//jg
 			String value = set.getValue();//399967
-			value=getHead(value);
 			String date = DateUtil.getDate();
 			try {
 				CBankuaiValueDTO cBankuaiValue=new CBankuaiValueDTO();
@@ -363,7 +364,7 @@ public class FetchJl {
 				cBankuaiValue.setCDate(date);
 				CBankuaiValueDTO f = cbankuaiBankuaiValueService.queryListGetFirst(cBankuaiValue);
 				if(f==null){
-					String s = getJavaScriptPage("http://hq.sinajs.cn/list="+value);
+					String s = getJavaScriptPage("http://hq.sinajs.cn/list=sz"+value);
 					if(s.split(",").length<3){
 						System.out.println(key+"...没有获取到数据.股票:"+s);
 						continue;
