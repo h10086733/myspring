@@ -103,7 +103,20 @@ public class CommonEnum {
 		hmName.put("zz500", "中证500");
 		
 		
-		hmCode.put("jg", "399967");
+		hmCode.put("swysjs", "399395");//国证有色
+		hmCode.put("swgt", "399419");//国证高铁
+		hmCode.put("gangtie", "399440");//国证钢铁
+		hmCode.put("swzq", "399707");//CSSW证券
+		hmCode.put("zzcm", "399810");//CSSW传媒
+		hmCode.put("swdz", "399811");//CSSW电子
+		hmCode.put("xnc", "399976");//CS新能车
+		hmCode.put("ydyl", "399991");//一带一路
+		hmCode.put("zzmt", "399998");//中证煤炭
+		hmCode.put("jg", "399967");//中证军工
+		hmCode.put("ydhl", "399970");//移动互联
+		hmCode.put("zzbj", "399997");//中证白酒
+//		hmCode.put("gqgg", "399974");//国企改革
+		hmCode.put("cycz", "399958");//创业成长
 	}
 	public static void main(String[] args) {
 		for(Entry<String, Integer> s:hmCount.entrySet()){

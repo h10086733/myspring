@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="cBankuaiXishu15">
+
+	<insert id="insert" parameterClass="com.huqiyun.dto.CBankuaiXishu15DTO">
+		INSERT INTO c_bankuai_xishu_15 (id
+  		,c_date
+  		,c_value
+  		,bankuai_name
+  		,bankuai_daima
+  		,create_date
+  		,update_date
+  		,create_by
+  		,update_by
+  		,delete_tag
+  		)
+	    VALUES (#id#
+  		,#cDate#
+  		,#cValue#
+  		,#bankuaiName#
+  		,#bankuaiDaima#
+  		,#createDate#
+  		,#updateDate#
+  		,#createBy#
+  		,#updateBy#
+  		,#deleteTag#
+  		)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS id
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterClass="com.huqiyun.dto.CBankuaiXishu15DTO">
+		<![CDATA[
+			UPDATE c_bankuai_xishu_15 SET id=#id#
+		]]>
+		<dynamic>
+			<isNotEmpty prepend="" property="id">
+				,id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cDate">
+				,c_date = #cDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="cValue">
+				,c_value = #cValue#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="bankuaiName">
+				,bankuai_name = #bankuaiName#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="bankuaiDaima">
+				,bankuai_daima = #bankuaiDaima#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="createDate">
+				,create_date = #createDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="updateDate">
+				,update_date = #updateDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="createBy">
+				,create_by = #createBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="updateBy">
+				,update_by = #updateBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="" property="deleteTag">
+				,delete_tag = #deleteTag#
+			</isNotEmpty>
+		</dynamic>
+		WHERE ID=#id# 
+	</update>
+	
+	<update id="updateForce" parameterClass="com.huqiyun.dto.CBankuaiXishu15DTO">
+			UPDATE c_bankuai_xishu_15 SET id=#id#
+				,id = #id#
+				,c_date = #cDate#
+				,c_value = #cValue#
+				,bankuai_name = #bankuaiName#
+				,bankuai_daima = #bankuaiDaima#
+				,create_date = #createDate#
+				,update_date = #updateDate#
+				,create_by = #createBy#
+				,update_by = #updateBy#
+				,delete_tag = #deleteTag#
+		WHERE ID=#id# 
+	</update>
+	
+	<resultMap class="com.huqiyun.dto.CBankuaiXishu15DTO" id="cBankuaiXishu15Map">
+	
+			<result property="id" column="id"/>
+			<result property="cDate" column="c_date"/>
+			<result property="cValue" column="c_value"/>
+			<result property="bankuaiName" column="bankuai_name"/>
+			<result property="bankuaiDaima" column="bankuai_daima"/>
+			<result property="createDate" column="create_date"/>
+			<result property="updateDate" column="update_date"/>
+			<result property="createBy" column="create_by"/>
+			<result property="updateBy" column="update_by"/>
+			<result property="deleteTag" column="delete_tag"/>
+		
+	</resultMap>
+	
+    <select id="queryList" resultMap="cBankuaiXishu15Map"  parameterClass="com.huqiyun.dto.CBankuaiXishu15DTO">
+        SELECT * 
+		FROM c_bankuai_xishu_15 d
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+					id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cDate">
+					c_date = #cDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cValue">
+					c_value = #cValue#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankuaiName">
+					bankuai_name = #bankuaiName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankuaiDaima">
+					bankuai_daima = #bankuaiDaima#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createDate">
+					create_date = #createDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateDate">
+					update_date = #updateDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createBy">
+					create_by = #createBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateBy">
+					update_by = #updateBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deleteTag">
+					delete_tag = #deleteTag#
+			</isNotEmpty>
+		</dynamic>
+		
+		order by d.id desc
+		<isNotEmpty prepend="limit" property="begin">
+				#begin#,#pageSize#
+			</isNotEmpty>
+    </select>  
+    
+    <select id="queryListCount" resultClass="int"  parameterClass="com.huqiyun.dto.CBankuaiXishu15DTO">
+        SELECT count(1) 
+		FROM c_bankuai_xishu_15 d
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+					id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cDate">
+					c_date = #cDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cValue">
+					c_value = #cValue#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankuaiName">
+					bankuai_name = #bankuaiName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankuaiDaima">
+					bankuai_daima = #bankuaiDaima#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createDate">
+					create_date = #createDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateDate">
+					update_date = #updateDate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createBy">
+					create_by = #createBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateBy">
+					update_by = #updateBy#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deleteTag">
+					delete_tag = #deleteTag#
+			</isNotEmpty>
+		</dynamic>
+		order by d.id desc
+    </select> 
+    
+    
+    <select id="loadById" resultMap="cBankuaiXishu15Map"  parameterClass="java.lang.Integer">
+        SELECT *
+		FROM c_bankuai_xishu_15 d
+		where id = #id#
+		order by d.id desc
+    </select> 
+	
+	 <delete id="delete"  parameterClass="java.lang.Integer">
+        delete from  
+		 c_bankuai_xishu_15 
+		where id = #id#
+    </delete> 
+	
+</sqlMap>

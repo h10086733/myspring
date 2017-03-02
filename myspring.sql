@@ -119,3 +119,18 @@ CREATE TABLE `test`.`c_bankuai_value`(
 COMMENT='板块每日收盘价格';
 ALTER TABLE `test`.`c_bankuai_value`   
   ADD COLUMN `bankuai_jiancheng` VARCHAR(20) NULL  COMMENT '板块简称' AFTER `id`;
+CREATE TABLE `test`.`c_bankuai_xishu_15`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `c_date` VARCHAR(20) COMMENT '15分钟数据',
+  `c_value` INT(11) COMMENT '值',
+  `bankuai_name` VARCHAR(20) COMMENT '板块名称',
+  `bankuai_daima` VARCHAR(20) COMMENT '板块代码',
+  `create_date` DATETIME COMMENT '创建时间',
+  `update_date` DATETIME COMMENT '更新时间',
+  `create_by` VARCHAR(50) COMMENT '创建人',
+  `update_by` VARCHAR(50) COMMENT '更新人',
+  `delete_tag` VARCHAR(50) DEFAULT '1'  COMMENT '删除标志1正常2删除',
+  PRIMARY KEY (`id`)
+)
+COMMENT='15分钟系数';
+  

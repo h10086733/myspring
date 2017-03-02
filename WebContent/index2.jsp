@@ -4,11 +4,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>神奇指标</title>
+<title>神奇指标10分</title>
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="echarts.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4d5a0f0d6229d3359dd4a8b7103a429f";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 <script type="text/javascript">
-	var key=['jg','swysjs','gangtie','zzmt','zzbj','swdz','ydyl'];
+	var key=['jg','swysjs','xnc','cycz'];
 	var map={"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长"};
 	function a(){
  		for(var i=0;i<key.length;i++){
@@ -22,11 +31,10 @@
 			}
 			var htmlobj=$.ajax({url:"./dingshiGetXs?type="+type,async:false});
 			var result=htmlobj.responseText;
-			$("#"+type).append(map[type]+":"+result+"\n");		
+			$("#"+type).append("<div>"+map[type]+":"+result+"</div>");		
  		}
 	}
- 	setInterval("a()",1000*60*60);//1000为1秒钟
-	
+ 	setInterval("a()",1000*60*10);//1000为1秒钟
 </script>
 
 </head>

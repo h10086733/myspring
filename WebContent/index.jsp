@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-<title>神奇指标</title>
+<title>启明星</title>
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="echarts.js"></script>
 <script>
@@ -21,11 +21,14 @@ var _hmt = _hmt || [];
 	var mapCount={'zzbj':'16','swgt':'39','zzcm':'50','xnc':'78','jg':'66','gangtie':'35','cycz':'100','zzmt':'29','swysjs':'109','swzq':'26','ydyl':'78','gy4.0':'48','ydhl':'100','swdz':'92','hs300':'300','zz500':'500'};
 	var key=['jg','swysjs','gangtie','zzmt','swzq','zzbj','swgt','gy4.0','cycz','swdz','ydhl','zzcm','xnc','ydyl','hs300','zz500'];
 	var map={"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长","hs300":"沪深300","zz500":"中证500"};
+	var flush=true;
+	var v="";
 	function a(x){
 		$("#content").html("");
 		var sumHtml="";
 		var showCount=6;
 		var dd="<table border ><tr><td></td>";
+		var rq="";
  		for(var i=0;i<key.length;i++){
 			var type=key[i];
 			var htmlobj=$.ajax({url:"./getsqzbAllAVG?bankuaiDaima="+type,async:false});
@@ -35,7 +38,15 @@ var _hmt = _hmt || [];
 			var hh2="";
 			for(var j=result.length-1;j>=0;j--){
 				if(i==0){
+					if(j==0){
+						rq=result[j].c_date;
+					}
 					dd+="<td>"+result[j].c_date+"</td>";
+				}else if(j==0){
+					if(rq!=result[j].c_date){
+						flush=false;
+						v+=map[type]+",";
+					}
 				}
 				if(result.length<showCount&&j==0){
 					for(var xx=0;xx<showCount-result.length;xx++){
@@ -60,14 +71,16 @@ var _hmt = _hmt || [];
 			sumHtml+=hh+hh2+"</tr>";
  		}
  		$("#content").html(sumHtml+"</table>");
- 		
+ 		if(!flush){
+ 			$("#gxztsb").html(v+"未更新完毕");
+ 		}
  		
  		buyLog();
 	}
 	function buyLog(){
 		var htmlobj=$.ajax({url:"./queryBuyFund",async:false});
 		var result=eval("("+htmlobj.responseText+")");
-		var html="<tr><td>基金名称</td><td>基金代码</td><td>购买日期</td><td>购买成本</td><td>当前价格</td><td>盈利</td><td>售出日期</td><td>当前状态</td>";
+		var html="<tr><td>基金名称</td><td>基金代码</td><td>购买日期</td><td>购买成本</td><td>当前价格</td><td>盈利</td><td>售出日期</td><td>售出价格</td><td>当前状态</td>";
 		for(var j=result.length-1;j>=0;j--){
 			var hprice="";
 			var cha="";
@@ -75,6 +88,7 @@ var _hmt = _hmt || [];
 			if(result[j].gmStatus=="1"){
 				result[j].gmStatus="持股";
 				result[j].saleDate="未售出";
+				result[j].yldw="未售出";
 				cha=result[j].currentPrice-result[j].gmcb;
 				sytype="(浮)";
 			}
@@ -91,8 +105,7 @@ var _hmt = _hmt || [];
 			}
 			html+="<tr><td>"+result[j].jjmc+"</td><td>"+result[j].jjdm
 			+"</td><td>"+result[j].bugDate+"</td><td>"+result[j].gmcb+"</td><td>"+result[j].currentPrice
-			+hprice+"</td><td>"+result[j].saleDate+"</td><td>"+result[j].gmStatus+"</td></tr>";
-			//"</td><td>"+result[j].yldw+
+			+hprice+"</td><td>"+result[j].saleDate+"</td><td>"+result[j].yldw+"</td><td>"+result[j].gmStatus+"</td></tr>";
 		}
 		
 		$("#gmjl").append("<table border>"+html+"</table>");
@@ -123,11 +136,11 @@ var _hmt = _hmt || [];
 	<button id="xsButton1" hidden onclick="a('avg')">金箍棒指标 </button>
 	<div style="height:30px"></div> -->	
 	<div id="gmjl" >
-		已购B基金记录<br>
+		交易记录<br>
 	</div>
+	<div id="gxztsb" style="color:red"></div>
 	<div id="content">
 	</div>
-	
 	
 </body>
 </html>

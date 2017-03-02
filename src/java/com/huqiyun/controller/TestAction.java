@@ -98,5 +98,13 @@ public class TestAction {
 		return result;
 		
 	}
-	
+	//保存行业指数的收盘价
+	@RequestMapping(value="/hangyeshoupanjiaRestful",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String hangyeshoupanjiaRestful(HttpServletRequest request,HttpServletResponse response){
+		logger.info("come in: {}",System.currentTimeMillis());
+		fetch.hangyeshoupanjia();
+		return "Ok";
+		
+	}
 }

@@ -36,10 +36,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.huqiyun.com.CommonEnum;
 import com.huqiyun.dto.CBankuaiDTO;
 import com.huqiyun.dto.CBankuaiValueDTO;
+import com.huqiyun.dto.CBankuaiXishu15DTO;
 import com.huqiyun.dto.CBankuaiXishuDTO;
 import com.huqiyun.dto.CdapanDTO;
 import com.huqiyun.service.ICBankuaiService;
 import com.huqiyun.service.ICBankuaiValueService;
+import com.huqiyun.service.ICBankuaiXishu15Service;
 import com.huqiyun.service.ICBankuaiXishuService;
 import com.huqiyun.service.ICdapanService;
 import com.huqiyun.util.DateUtil;
@@ -59,6 +61,9 @@ public class FetchJl {
 	
 	@Autowired
 	ICBankuaiValueService cbankuaiBankuaiValueService;
+	
+	@Autowired
+	ICBankuaiXishu15Service cbankuaixishu15Service;
 	
 	static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	static SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
@@ -141,6 +146,7 @@ public class FetchJl {
 				d.setCZhishu(cdapan.getCZhishu());
 				cdapanService.update(d);
 			} else {// 新增
+				d.setCreateDate(new Date());
 				cdapanService.insert(cdapan);
 			}
 			if (!StringUtils.isBlank(hangye)) {
@@ -281,6 +287,7 @@ public class FetchJl {
 					cdapanDTO.setC20Zuigao(current);
 				}
 				cdapanDTO.setCZhishu(current);
+				cdapanDTO.setUpdateDate(new Date());
 				cdapanService.update(cdapanDTO);
 			}
 		}
@@ -294,6 +301,7 @@ public class FetchJl {
 		}
 		return g;
 	}
+	ExecutorService es=Executors.newFixedThreadPool(5);
 	 /***
 	 * 定时更新每日行业系数
 	 * @throws FileNotFoundException
@@ -303,44 +311,82 @@ public class FetchJl {
 	 @Scheduled(cron="0 05 15 * * ?")
 	public void dingshiFetchAllXs(){
 		Map<String, String> hm = CommonEnum.hm;
-		for (Entry<String, String> set : hm.entrySet()) {
-			try {
-				String key=set.getKey();
-				CBankuaiXishuDTO cBankuaiXishu=new CBankuaiXishuDTO();
-				cBankuaiXishu.setBankuaiDaima(key);
-				cBankuaiXishu.setDeleteTag("1");
-				cBankuaiXishu.setCDate(DateUtil.getDate());
-				//查询当前是否存在
-				List<CBankuaiXishuDTO> queryList = cbankuaixishuService.queryList(cBankuaiXishu);
-				if(queryList.size()==0){
-					int xs=getXishu(set.getValue().split(","));
-					cBankuaiXishu.setCValue(xs);
-					cBankuaiXishu.setBankuaiName(CommonEnum.hmName.get(key));
-					cbankuaixishuService.insert(cBankuaiXishu);
+		for (final Entry<String, String> set : hm.entrySet()) {
+			es.execute(new Runnable() {
+				@Override
+				public void run() {
+					System.out.println("current:"+Thread.currentThread().getName()+";execute:"+set.getValue());
+					try {
+						String key=set.getKey();
+						CBankuaiXishuDTO cBankuaiXishu=new CBankuaiXishuDTO();
+						cBankuaiXishu.setBankuaiDaima(key);
+						cBankuaiXishu.setDeleteTag("1");
+						cBankuaiXishu.setCDate(DateUtil.getDate());
+						//查询当前是否存在    存在则更新
+						List<CBankuaiXishuDTO> queryList = cbankuaixishuService.queryList(cBankuaiXishu);
+						int xs=getXishu(set.getValue().split(","));
+						cBankuaiXishu.setCValue(xs);
+						cBankuaiXishu.setBankuaiName(CommonEnum.hmName.get(key));
+						Date createDate = new Date();
+						cBankuaiXishu.setUpdateDate(createDate);
+						if(queryList.size()==0){
+							cBankuaiXishu.setCreateDate(createDate);
+							cbankuaixishuService.insert(cBankuaiXishu);
+						}else{
+							cBankuaiXishu.setId(queryList.get(0).getId());
+							cbankuaixishuService.update(cBankuaiXishu);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			});
 		}
 	}
+	 /***
+		 * 定时更新每日行业系数15分钟
+		 * @throws FileNotFoundException
+		 * @throws IOException
+		 * @throws SQLException
+		 */
+//		 @Scheduled(cron="0 15/15 9,10,11 * * ?")
+		public void d15(){
+			Map<String, String> hm = CommonEnum.hm;
+			for (final Entry<String, String> set : hm.entrySet()) {
+				es.execute(new Runnable() {
+					@Override
+					public void run() {
+						System.out.println("current:"+Thread.currentThread().getName()+";execute:"+set.getValue());
+						try {
+							String key=set.getKey();
+							CBankuaiXishu15DTO cBankuaiXishu15=new CBankuaiXishu15DTO();
+							cBankuaiXishu15.setBankuaiDaima(key);
+							cBankuaiXishu15.setDeleteTag("1");
+							cBankuaiXishu15.setCDate(DateUtil.getString(new Date(), "yyyy-MM-dd HH:mm:ss"));
+							//查询当前是否存在    存在则更新
+							int xs=getXishu(set.getValue().split(","));
+							cBankuaiXishu15.setCValue(xs);
+							cBankuaiXishu15.setBankuaiName(CommonEnum.hmName.get(key));
+							Date createDate = new Date();
+							cBankuaiXishu15.setUpdateDate(createDate);
+							cBankuaiXishu15.setCreateDate(createDate);
+							cbankuaixishu15Service.insert(cBankuaiXishu15);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		}
 	 /***
 		 * 打印全部系数
 		 * @throws FileNotFoundException
 		 * @throws IOException
 		 * @throws SQLException
 		 */
-	 @Scheduled(cron="0 40 11 * * ?")
+	 @Scheduled(cron="0 30 11 * * ?")
 	public void gengxin20ri(){
-		ExecutorService es=Executors.newFixedThreadPool(5);
-		Map<String, String> hm = CommonEnum.hm;
-		for (final Entry<String, String> set : hm.entrySet()) {
-			es.execute(new Runnable() {
-				@Override
-				public void run() {
-					getXishu(set.getValue().split(","));
-				}
-			});
-		}
+		 dingshiFetchAllXs();
 	}
 	 /***
 		 * 每日收盘收录行业系数收盘价格
@@ -363,15 +409,21 @@ public class FetchJl {
 				cBankuaiValue.setDeleteTag("1");
 				cBankuaiValue.setCDate(date);
 				CBankuaiValueDTO f = cbankuaiBankuaiValueService.queryListGetFirst(cBankuaiValue);
-				if(f==null){
-					String s = getJavaScriptPage("http://hq.sinajs.cn/list=sz"+value);
-					if(s.split(",").length<3){
-						System.out.println(key+"...没有获取到数据.股票:"+s);
-						continue;
-					}
-					double current=Double.parseDouble(s.split(",")[3]);
-					cBankuaiValue.setBankuaiShoupanjia(current+"");
+				String s = getJavaScriptPage("http://hq.sinajs.cn/list=sz"+value);
+				if(s.split(",").length<3){
+					System.out.println(key+"...没有获取到数据.股票:"+s);
+					continue;
+				}
+				double current=Double.parseDouble(s.split(",")[3]);
+				cBankuaiValue.setBankuaiShoupanjia(current+"");
+				Date updateDate = new Date();
+				cBankuaiValue.setUpdateDate(updateDate);
+				if(f==null||f.getId()==null){
+					cBankuaiValue.setCreateDate(updateDate);
 					cbankuaiBankuaiValueService.insert(cBankuaiValue);
+				}else{
+					cBankuaiValue.setId(f.getId());
+					cbankuaiBankuaiValueService.update(cBankuaiValue);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

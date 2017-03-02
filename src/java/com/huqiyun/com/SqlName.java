@@ -120,4 +120,23 @@ public class SqlName {
 		
 		public static final String delete = namespace+"delete";
 }
+	//15分钟系数
+public class CBankuaiXishu15Sql{
+		
+		private static final String namespace = "cBankuaiXishu15"+SEPARATOR;
+		
+		public static final String insert = namespace+"insert";
+		
+		public static final String update = namespace+"update";
+		
+		public static final String updateForce = namespace+"updateForce";
+		
+		public static final String queryList = namespace+"queryList";
+		
+		public static final String queryListCount = namespace+"queryListCount";
+		
+		public static final String loadById = namespace+"loadById";
+		
+		public static final String delete = namespace+"delete";
+}
 }
