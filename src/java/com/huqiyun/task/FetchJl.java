@@ -414,6 +414,12 @@ public class FetchJl {
 					System.out.println(key+"...没有获取到数据.股票:"+s);
 					continue;
 				}
+				String cdate=StringUtil.fecth(s, ".*?(\\d{4}-\\d{2}-\\d{2}),", 1).replace("-","");
+				if(!cdate.equals(date)){
+					//当前价格非今天价格。代表今日并非交易日,结束当日
+					System.out.println(date+"当前并非股票交易日,上一个交易日："+cdate);
+					break;
+				}
 				double current=Double.parseDouble(s.split(",")[3]);
 				cBankuaiValue.setBankuaiShoupanjia(current+"");
 				Date updateDate = new Date();
