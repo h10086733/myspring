@@ -101,7 +101,10 @@ public class CommonEnum {
 		hmName.put("hs300", "沪深300");
 		//中证500
 		hmName.put("zz500", "中证500");
-		
+		//中证1000
+		hmName.put("zz1000", "中证1000");
+		//中证全指
+		hmName.put("zzqz", "中证全指");
 		
 		hmCode.put("swysjs", "399395");//国证有色
 		hmCode.put("swgt", "399419");//国证高铁
@@ -117,6 +120,13 @@ public class CommonEnum {
 		hmCode.put("zzbj", "399997");//中证白酒
 //		hmCode.put("gqgg", "399974");//国企改革
 		hmCode.put("cycz", "399958");//创业成长
+		hmCode.put("zzqz", "sh000985");//中证全指
+		hmCode.put("hs300", "sh000300");//沪深300
+		hmCode.put("zz500", "sh000905");//中证500
+		hmCode.put("hs300", "sh000300");//沪深300
+		hmCode.put("zz1000", "sh000852");//中证1000
+		
+		
 	}
 	public static void main(String[] args) {
 		for(Entry<String, Integer> s:hmCount.entrySet()){

@@ -17,7 +17,7 @@ var _hmt = _hmt || [];
 })();
 </script>
 <script type="text/javascript">
-	var key=['jg','swysjs','xnc','cycz'];
+	var key=['jg','swdz','xnc','cycz'];
 	var map={"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长"};
 	function a(){
  		for(var i=0;i<key.length;i++){
@@ -35,10 +35,21 @@ var _hmt = _hmt || [];
  		}
 	}
  	setInterval("a()",1000*60*10);//1000为1秒钟
+ 	
+ 	function upxs(){
+ 		var s=$("#req").val();
+ 		if(s){
+ 			key=s.split(",");
+ 			alert("修改成功等待更新数据！！！");
+ 		}
+ 	}
 </script>
 
 </head>
 
 <body onload="">
+"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长"
+	<input id="req" value="" />修改需要查询的系数,多个逗号隔开(例：jg,swysjs)<button onclick="upxs()">提交</button>
+
 </body>
 </html>

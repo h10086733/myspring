@@ -409,7 +409,10 @@ public class FetchJl {
 				cBankuaiValue.setDeleteTag("1");
 				cBankuaiValue.setCDate(date);
 				CBankuaiValueDTO f = cbankuaiBankuaiValueService.queryListGetFirst(cBankuaiValue);
-				String s = getJavaScriptPage("http://hq.sinajs.cn/list=sz"+value);
+				if(value.matches("\\d+")){
+					value="sz"+value;
+				}
+				String s = getJavaScriptPage("http://hq.sinajs.cn/list="+value);
 				if(s.split(",").length<3){
 					System.out.println(key+"...没有获取到数据.股票:"+s);
 					continue;
