@@ -34,6 +34,7 @@ import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.huqiyun.com.CommonEnum;
+import com.huqiyun.com.WeekDays;
 import com.huqiyun.dto.CBankuaiDTO;
 import com.huqiyun.dto.CBankuaiValueDTO;
 import com.huqiyun.dto.CBankuaiXishu15DTO;
@@ -310,6 +311,14 @@ public class FetchJl {
 	 */
 	 @Scheduled(cron="0 05 15 * * ?")
 	public void dingshiFetchAllXs(){
+		 
+		 //判断是否是周末节假日
+		 boolean validate = WeekDays.validate(DateUtil.getDate());
+		 if(validate){
+			 System.out.println("节假日不执行！！！");
+		 }
+		 
+		 
 		Map<String, String> hm = CommonEnum.hm;
 		for (final Entry<String, String> set : hm.entrySet()) {
 			es.execute(new Runnable() {
@@ -396,6 +405,11 @@ public class FetchJl {
 		 */
 	 @Scheduled(cron="0 05 15 * * ?")
 	public void hangyeshoupanjia(){
+		 //判断是否是周末节假日
+		 boolean validate = WeekDays.validate(DateUtil.getDate());
+		 if(validate){
+			 System.out.println("节假日不执行！！！");
+		 }
 		Map<String, String> hm = CommonEnum.hmCode;
 		for (Entry<String, String> set : hm.entrySet()) {
 			String key = set.getKey();//jg
