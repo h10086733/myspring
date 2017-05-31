@@ -294,7 +294,8 @@ public class FetchJl {
 		}
 	}
 
-	private String getHead(String g) {
+	public static String getHead(String g) {
+		g=g.trim();
 		if(g.matches("^6.*")){
 			g="sh"+g;
 		}else if(g.matches("^(300|002|000|001|301).*")){
@@ -316,8 +317,8 @@ public class FetchJl {
 		 boolean validate = WeekDays.validate(DateUtil.getDate());
 		 if(validate){
 			 System.out.println("节假日不执行！！！");
+			 return;
 		 }
-		 
 		 
 		Map<String, String> hm = CommonEnum.hm;
 		for (final Entry<String, String> set : hm.entrySet()) {

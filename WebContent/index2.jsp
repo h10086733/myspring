@@ -17,8 +17,8 @@ var _hmt = _hmt || [];
 })();
 </script>
 <script type="text/javascript">
-	var key=['jg','swdz','xnc','cycz'];
-	var map={"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长"};
+	var key=['jg','ydyl','xnc','cycz','swdc'];
+	var map={"jg":"中证军工","zzhb":"中证环保","zzzz":"中证转债","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长","dqsb":"电器设备","rgzn":"人工智能","yysw":"医药生物","znjj":"智能家居","swdc":"申万地产"};
 	function a(){
  		for(var i=0;i<key.length;i++){
 			var type=key[i];
@@ -48,7 +48,7 @@ var _hmt = _hmt || [];
 </head>
 
 <body onload="">
-"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长"
+"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长","dqsb":"电器设备","rgzn":"人工智能","yysw":"医药生物","znjj":"智能家居","swdc":"申万地产"
 	<input id="req" value="" />修改需要查询的系数,多个逗号隔开(例：jg,swysjs)<button onclick="upxs()">提交</button>
 
 </body>

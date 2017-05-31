@@ -18,9 +18,9 @@ var _hmt = _hmt || [];
 })();
 </script>
 <script type="text/javascript">
-	var mapCount={'zzbj':'16','swgt':'39','zzcm':'50','xnc':'78','jg':'66','gangtie':'35','cycz':'100','zzmt':'29','swysjs':'109','swzq':'26','ydyl':'78','gy4.0':'48','ydhl':'100','swdz':'92','hs300':'300','zz500':'500'};
-	var key=['jg','swysjs','gangtie','zzmt','swzq','zzbj','swgt','gy4.0','cycz','swdz','ydhl','zzcm','xnc','ydyl','hs300','zz500'];
-	var map={"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路", "zzmt":"中证煤炭", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长","hs300":"沪深300","zz500":"中证500"};
+	var mapCount={'zzbj':'16','swgt':'39','zzcm':'50','zzzz':'16','xnc':'78','jg':'66','swdz':'92','zzhb':'100','gangtie':'35','cycz':'100','zzmt':'29','swysjs':'109','swzq':'26','ydyl':'78','gy4.0':'48','ydhl':'100','swdc':'135','hs300':'300','zz500':'500','dqsb':'164','rgzn':'88','yysw':'228','znjj':'100'};
+	var key=['jg','swzq','swysjs','zzbj','gangtie','zzmt','ydhl','ydyl','xnc','hs300','zz500','zzcm','swgt','cycz','swdz','zzhb','swdc'];//,'dqsb','rgzn','yysw','znjj','gy4.0','zzzz'
+	var map={"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路","zzzz":"中证转债", "zzmt":"中证煤炭","zzhb":"中证环保", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁","swdc":"申万地产","swdz":"申万电子", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长","dqsb":"电器设备","rgzn":"人工智能","yysw":"医药生物","znjj":"智能家居","hs300":"沪深300","zz500":"中证500"};
 	var flush=true;
 	var v="";
 	function a(x){
@@ -34,7 +34,7 @@ var _hmt = _hmt || [];
 			var htmlobj=$.ajax({url:"./getsqzbAllAVG?bankuaiDaima="+type,async:false});
 			var result=eval("("+htmlobj.responseText+")");
 			result=result.slice(0,showCount);
-			var hh="<tr><td>"+map[type]+"</td>";
+			var hh="<tr><td><a onclick='updatehy(\""+type+"\")'>"+map[type]+"</a></td>";
 			var hh2="";
 			for(var j=result.length-1;j>=0;j--){
 				if(i==0){
@@ -125,6 +125,43 @@ var _hmt = _hmt || [];
 	    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 	    return fmt;
 	}
+	var res={};
+	function updatehy(v){
+		//行业
+		var htmlobj=$.ajax({url:"./hyggzdf?type="+v,async:false});
+		var result=eval("("+htmlobj.responseText+")");
+		res=result;
+		console.log(result);
+		px(result);
+	}
+	function sort(v){
+		if(v=='asc'){
+			res=res.sort(function(a,b){
+			var azdf=(a.c-a.oldPrice)/a.oldPrice*100;
+			var bzdf=(b.c-b.oldPrice)/b.oldPrice*100;
+            return azdf-bzdf});
+		}else{
+			res=res.sort(function(a,b){
+			var azdf=(a.c-a.oldPrice)/a.oldPrice*100;
+			var bzdf=(b.c-b.oldPrice)/b.oldPrice*100;
+            return bzdf-azdf});
+		}
+		px(res);
+	}
+	function px(result){
+		$("#hygg").html("");
+		var html="<tr><td>id</td><td>股票名称</td><td>昨日价格</td><td>当前价格</td><td>涨跌幅</td>";
+		for(var j=result.length-1;j>=0;j--){
+			var zdf=(result[j].c-result[j].oldPrice)/result[j].oldPrice*100;
+			var a="<span style='color:red'>"+zdf.toFixed(2)+"%</span>";
+			if(zdf<0){
+				a="<span style='color:green'>"+zdf.toFixed(2)+"%</span>";
+			}
+			html+="<tr><td>"+(result.length-j)+"</td><td>"+result[j].gpname+"</td><td>"+result[j].oldPrice
+			+"</td><td>"+result[j].c+"</td><td>"+a+"</td></tr>";
+		}
+		$("#hygg").append("<table border>"+html+"</table>");
+	}
 </script>
 
 </head>
@@ -138,9 +175,15 @@ var _hmt = _hmt || [];
 	<div id="gmjl" >
 		交易记录<br>
 	</div>
-	<div id="gxztsb" style="color:red"></div>
-	<div id="content">
+	<div id="gxztsb" style="color:red;"></div>
+	<div id="content" style="float: left;margin-right: 100px">
 	</div>
 	
+	<div id="bbb">
+		<div id="hygg" style="float: left;height: 550px;overflow: auto;">
+		</div>
+		<input type="submit" onclick="sort('asc')" value="升">
+		<input type="submit" onclick="sort('desc')" value="倒">
+	</div>
 </body>
 </html>

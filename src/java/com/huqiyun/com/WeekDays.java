@@ -18,7 +18,7 @@ public class WeekDays {
 
 	public static void main(String[] args) throws ParseException {
 
-		boolean f=validate("20170313");
+		boolean f=validate("20170319");
 		System.out.println(f);
 	}
 

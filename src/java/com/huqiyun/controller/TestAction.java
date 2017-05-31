@@ -1,5 +1,8 @@
 package com.huqiyun.controller;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.huqiyun.com.CommonEnum;
 import com.huqiyun.task.FetchJl;
 
@@ -106,5 +110,39 @@ public class TestAction {
 		fetch.hangyeshoupanjia();
 		return "Ok";
 		
+	}
+	//查询行业所有的个股  涨跌幅
+	@RequestMapping(value="/hyggzdf",method = RequestMethod.GET,produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String hyggzdf(HttpServletRequest request,HttpServletResponse response){
+		logger.info("come in: {}",System.currentTimeMillis());
+		String hy=request.getParameter("type");
+		if(StringUtils.isBlank(hy)){
+			return "type数据为空";
+		}
+		Map<String, String> hm = CommonEnum.hm;
+		String[] st = hm.get(hy).split(",");
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		for (int i = 0; i < st.length; i++) {
+			String g=st[i];
+			g = FetchJl.getHead(g);
+			//判断是否停牌了!!!!!!!
+			String s = FetchJl.getJavaScriptPage("http://hq.sinajs.cn/list="+g);
+			if(s.split(",").length<3){
+				System.out.println(g+"没有获取到数据.股票:"+s);
+			}else{
+				Map<String,Object> m=new HashMap<String, Object>();
+				m.put("gpname", s.split(",")[0].substring(s.indexOf("\"")+1));
+				//昨日价格
+				m.put("oldPrice", s.split(",")[2]);
+				//当前价格
+				m.put("c", s.split(",")[3]);
+				if(s.split(",")[3].equals("0.000")){//停牌
+					continue;
+				}
+				list.add(m);
+			}
+		}
+		return JSON.toJSONString(list);
 	}
 }
