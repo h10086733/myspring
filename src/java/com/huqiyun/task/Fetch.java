@@ -33,7 +33,7 @@ public class Fetch {
 	static SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
 	static DecimalFormat    df   = new DecimalFormat("######0.00");   
 	public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException {
-		Map<String,String> hm=new HashMap<String, String>();
+		TreeMap<String,String> hm=new TreeMap<String, String>();
 		//军工
 		String jungong="sz000519,sz000547,sz000561,sz000733,sz000738,sz000748,sz000768,sz000801,sz000901,sz002013,sz002023,sz002025,sz002049,sz002111,sz002151,sz002179,sz002214,sz002253,sz002260,sz002268,sz002338,sz002368,sz002413,sz002414,sz002465,sz002519,sz002544,sz300008,sz300034,sz300045,sz300053,sz300065,sz300101,sz300114,sz300123,sz300159,sz300177,sz300252,sz300324,sz300354,sz300447,sz300474,sh600038,sh600118,sh600150,sh600151,sh600184,sh600316,sh600343,sh600372,sh600391,sh600435,sh600480,sh600501,sh600523,sh600562,sh600677,sh600685,sh600765,sh600855,sh600879,sh600893,sh600967,sh600990,sh601989,sh603678";
 		hm.put("军工", jungong);

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -310,10 +311,14 @@ public class FetchJl {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	 @Scheduled(cron="0 05 15 * * ?")
+	 @Scheduled(cron="0 01 15 * * ?")
 	public void dingshiFetchAllXs(){
 		 
-		 //判断是否是周末节假日
+		 getAll();
+	}
+
+	public synchronized void getAll() {
+		//判断是否是周末节假日
 		 boolean validate = WeekDays.validate(DateUtil.getDate());
 		 if(validate){
 			 System.out.println("节假日不执行！！！");
@@ -325,6 +330,10 @@ public class FetchJl {
 			es.execute(new Runnable() {
 				@Override
 				public void run() {
+					insertBankuaixishu(set);
+				}
+				
+				public void insertBankuaixishu(final Entry<String, String> set) {
 					System.out.println("current:"+Thread.currentThread().getName()+";execute:"+set.getValue());
 					try {
 						String key=set.getKey();
@@ -394,9 +403,9 @@ public class FetchJl {
 		 * @throws IOException
 		 * @throws SQLException
 		 */
-	 @Scheduled(cron="0 30 11 * * ?")
+	 @Scheduled(cron="1 30 11 * * ?")
 	public void gengxin20ri(){
-		 dingshiFetchAllXs();
+		 getAll();
 	}
 	 /***
 		 * 每日收盘收录行业系数收盘价格

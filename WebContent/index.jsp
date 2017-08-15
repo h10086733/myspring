@@ -5,7 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-<title>启明星</title>
+<title>启明星分级基金</title>
+<meta name="description" content="该表格记录实盘操作，分析行业趋势，大盘走势的依据。">
+<meta name="keywords" content="基金,股票,赚钱">
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="echarts.js"></script>
 <script>
@@ -18,9 +20,9 @@ var _hmt = _hmt || [];
 })();
 </script>
 <script type="text/javascript">
-	var mapCount={'zzbj':'16','swgt':'39','zzcm':'50','zzzz':'16','xnc':'78','jg':'66','swdz':'92','zzhb':'100','gangtie':'35','cycz':'100','zzmt':'29','swysjs':'109','swzq':'26','ydyl':'78','gy4.0':'48','ydhl':'100','swdc':'135','hs300':'300','zz500':'500','dqsb':'164','rgzn':'88','yysw':'228','znjj':'100'};
-	var key=['jg','swzq','swysjs','zzbj','gangtie','zzmt','ydhl','ydyl','xnc','hs300','zz500','zzcm','swgt','cycz','swdz','zzhb','swdc'];//,'dqsb','rgzn','yysw','znjj','gy4.0','zzzz'
-	var map={"jg":"中证军工","swysjs":"申万有色金属","ydyl":"一带一路","zzzz":"中证转债", "zzmt":"中证煤炭","zzhb":"中证环保", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"申万钢铁","swdc":"申万地产","swdz":"申万电子", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长","dqsb":"电器设备","rgzn":"人工智能","yysw":"医药生物","znjj":"智能家居","hs300":"沪深300","zz500":"中证500"};
+	var mapCount={'gy4.0':'48','swgt':'25','gangtie':'40','ydhl':'100','rgzn':'88','yysw':'228','zzhb':'100','zz500':'500','dqsb':'164','swzq':'28','swdc':'135','zzcm':'50','zzbj':'18','hs300':'300','znjj':'100','ydyl':'83','xnc':'73','jg':'67','swdz':'92','swysjs':'50','zzmt':'28','cycz':'100'};
+	var key=['jg','swzq','swysjs','zzbj','gangtie','zzmt','ydhl','ydyl','xnc','hs300','zz500'];//,'dqsb','rgzn','yysw','znjj','gy4.0','zzzz','zzcm','swgt','cycz','swdz','zzhb','swdc'
+	var map={"jg":"中证军工","swysjs":"国证有色","ydyl":"一带一路","zzzz":"中证转债", "zzmt":"中证煤炭","zzhb":"中证环保", "swdz":"申万电子", "gy4.0":"工业4.0", "swgt":"申万高铁", "gangtie":"国证钢铁","swdc":"申万地产","swdz":"申万电子", "ydhl":"移动互联", "swzq":"申万证券", "zzcm":"中证传媒", "zzbj":"中证白酒", "xnc":"新能车",  "cycz":"创业成长","dqsb":"电器设备","rgzn":"人工智能","yysw":"医药生物","znjj":"智能家居","hs300":"沪深300","zz500":"中证500"};
 	var flush=true;
 	var v="";
 	function a(x){
@@ -162,6 +164,9 @@ var _hmt = _hmt || [];
 		}
 		$("#hygg").append("<table border>"+html+"</table>");
 	}
+	
+	
+	
 </script>
 
 </head>
@@ -173,7 +178,8 @@ var _hmt = _hmt || [];
 	<button id="xsButton1" hidden onclick="a('avg')">金箍棒指标 </button>
 	<div style="height:30px"></div> -->	
 	<div id="gmjl" >
-		交易记录<br>
+		交易记录<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=6fda31d199375c17f129205504e1a2a91bc08cb03ffbc49f9210205d2dd5747b"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="分级基金启明星" title="分级基金启明星"></a>
+		<br/>
 	</div>
 	<div id="gxztsb" style="color:red;"></div>
 	<div id="content" style="float: left;margin-right: 100px">
